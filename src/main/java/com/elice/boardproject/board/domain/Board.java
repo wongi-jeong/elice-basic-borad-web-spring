@@ -5,11 +5,8 @@ import lombok.*;
 import java.util.Date;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
-@Setter
-@ToString
+@NoArgsConstructor
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,5 +16,14 @@ public class Board {
     private String content;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+
+    @Builder
+    public Board(Long boardId, String writer, String title, String content, Date updatedDate) {
+        this.boardId = boardId;
+        this.writer = writer;
+        this.title = title;
+        this.content = content;
+        this.updatedDate = updatedDate;
+    }
 
 }
