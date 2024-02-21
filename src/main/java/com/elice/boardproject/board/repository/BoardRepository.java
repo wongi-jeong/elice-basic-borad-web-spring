@@ -21,8 +21,7 @@ public class BoardRepository {
 
     public Board save(Board board) {
         String sql = "insert into board(writer, title, content) values(?, ?, ?)";
-        long boardId = jdbcTemplate.update(sql, board.getWriter(), board.getTitle(), board.getContent());
-        Board.builder().boardId(boardId).build();
+        jdbcTemplate.update(sql, board.getWriter(), board.getTitle(), board.getContent());
         return board;
     }
 
