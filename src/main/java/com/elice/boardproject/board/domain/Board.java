@@ -13,9 +13,10 @@ import java.util.Date;
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long board_id;
-
+    private Long boardId;
+    private String writer;
     private String title;
+    private String content;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
 
