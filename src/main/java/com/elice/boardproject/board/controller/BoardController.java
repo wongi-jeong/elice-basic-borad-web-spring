@@ -1,12 +1,16 @@
 package com.elice.boardproject.board.controller;
 
+import com.elice.boardproject.board.domain.Board;
+import com.elice.boardproject.board.dto.BoardDTO;
 import com.elice.boardproject.board.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Slf4j
@@ -28,10 +32,11 @@ public class BoardController{
     }
 
     // 게시판 생성 페이지 조회
-    @GetMapping("/boards/new")
+    @GetMapping("/boards/create")
     public String newBoard() {
         return "board/createBoard";
     }
+
 
     // 게시판 조회
     @GetMapping("/boards/{id}")
@@ -47,4 +52,16 @@ public class BoardController{
         return "board/editBoard";
     }
 
+    // 게시판 생성
+    @PostMapping("/boards/create")
+    public String createBoard(@ModelAttribute BoardDTO boardDTO) {
+        Board board = Board.builder()
+                .title(boardDTO.getTitle())
+                .content(boardDTO.getContent())
+                .build();
+
+        Long boardId = boardService.saveBoard(board);
+
+        return "redirect:/boards/" + boardId;
+    }
 }
