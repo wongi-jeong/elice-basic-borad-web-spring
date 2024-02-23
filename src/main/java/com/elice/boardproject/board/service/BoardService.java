@@ -15,7 +15,7 @@ public class BoardService {
         this.boardRepository = boardRepository;
     }
 
-    public List<Board> getAllBoard() {
+    public List<Board> getAllBoards() {
         return boardRepository.findAll();
     }
 
@@ -27,5 +27,9 @@ public class BoardService {
         Board.builder().updatedDate(new Date()).build();
         Board result = boardRepository.save(board);
         return result.getBoardId();
+    }
+
+    public void updateBoard(Board board) {
+        boardRepository.update(board);
     }
 }
