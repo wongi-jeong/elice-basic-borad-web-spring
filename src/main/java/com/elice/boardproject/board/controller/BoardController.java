@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
@@ -64,4 +61,19 @@ public class BoardController{
 
         return "redirect:/boards/" + boardId;
     }
+
+    // 게시판 수정
+    @PutMapping("/boards/edit/{id}")
+    public String editBoard(@PathVariable Long id, @ModelAttribute BoardDTO boardDTO) {
+        Board board = Board.builder()
+                .boardId(id)
+                .title(boardDTO.getTitle())
+                .content(boardDTO.getContent())
+                .build();
+        boardService.updateBoard(board);
+
+        return "redirect:/boards/" + id;
+    }
+
+
 }
