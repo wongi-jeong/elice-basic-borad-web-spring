@@ -7,10 +7,13 @@ import java.util.Date;
 @Entity
 @Getter
 @NoArgsConstructor
+@ToString
+@Table(name = "board")
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardId;
+
     private String writer;
     private String title;
     private String content;
