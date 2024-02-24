@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Custom ###
+!/logs/
+!/build/
+!/.gradle/
+!/.idea/
