@@ -9,6 +9,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class BoardPostDTO {
-    private String title;
-    private String content;
+    private String name;
+    private String description;
 }
