@@ -28,23 +28,23 @@
     </div>
     <form th:action="@{/boards/create}" method="post">
         <div class="mb-3">
-            <label for="title">게시판 이름</label>
+            <label for="name">게시판 이름</label>
             <input
                     type="text"
                     class="form-control"
-                    id="title"
-                    name="title"
+                    id="name"
+                    name="name"
                     maxlength="20"
                     placeholder="게시판 이름 입력 (최대 20자)"
                     required
             />
         </div>
         <div class="mb-3">
-            <label for="content">게시판 설명</label>
+            <label for="description">게시판 설명</label>
             <textarea
                     class="form-control"
-                    id="content"
-                    name="content"
+                    id="description"
+                    name="description"
                     maxlength="200"
                     placeholder="게시판 설명 입력 (최대 200자)"
             ></textarea>
