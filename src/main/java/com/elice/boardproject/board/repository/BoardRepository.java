@@ -1,11 +1,18 @@
 package com.elice.boardproject.board.repository;
 
 import com.elice.boardproject.board.domain.Board;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import javax.swing.plaf.basic.BasicTreeUI;
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,39 +26,64 @@ public class BoardRepository {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Board save(Board board) {
-        String sql = "insert into board(writer, title, content) values(?, ?, ?)";
-        jdbcTemplate.update(sql, board.getWriter(), board.getTitle(), board.getContent());
-        return board;
-    }
-
-    public int update(Board board) {
-        String sql = "update board set writer = ?, title = ?, content = ? where boardId = ?";
-        return jdbcTemplate.update(sql, board.getWriter(), board.getTitle(), board.getContent(), board.getBoardId());
-    }
-
-    public void delete(Long id) {
-        String sql = "delete from board where boardId = ?";
-        jdbcTemplate.update(sql, id);
-    }
-
     public List<Board> findAll() {
-        String sql = "select * from board";
+        String sql = "SELECT * FROM board";
         return jdbcTemplate.query(sql, boardRowMapper());
     }
 
     public Optional<Board> findById(Long id) {
-        String sql = "select * from board where boardId = ?";
-        return jdbcTemplate.query(sql, boardRowMapper(), id).stream().findAny();
+        try {
+            String sql = "SELECT * FROM board WHERE id = ?";
+            Board board = jdbcTemplate.queryForObject(sql, boardRowMapper(), id);
+
+            return Optional.ofNullable(board);
+        } catch (EmptyResultDataAccessException ex) {
+            return Optional.empty();
+        }
     }
+
+    public Board save(Board board) {
+        String sql = "INSERT INTO board(name, description, created_at) VALUES (?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        LocalDateTime createAt = LocalDateTime.now();
+
+        jdbcTemplate.update(con -> {
+            PreparedStatement ps = con.prepareStatement(sql, new String[]{"id"});
+            ps.setString(1, board.getName());
+            ps.setString(2, board.getDescription());
+            ps.setTimestamp(3, Timestamp.valueOf(createAt));
+            return ps;
+        }, keyHolder);
+
+        Number key = keyHolder.getKey();
+
+        if (key == null) return board;
+
+        return board.toBuilder()
+                .id(key.longValue())
+                .createAt(createAt)
+                .build();
+    }
+
+    public Board update(Board board) {
+        String sql = "UPDATE board SET name = ?, description = ? WHERE id = ?";
+        jdbcTemplate.update(sql, board.getName(), board.getDescription(), board.getId());
+
+        return board;
+    }
+
+    public void delete(Long id) {
+        String sql = "DELETE FROM board WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
 
     private RowMapper<Board> boardRowMapper() {
         return (rs, rowNum) -> Board.builder()
-                .boardId(rs.getLong("id"))
-                .writer(rs.getString("writer"))
-                .title(rs.getString("title"))
-                .content(rs.getString("content"))
-                .updatedDate(rs.getDate("updateDate"))
+                .id(rs.getLong("id"))
+                .name(rs.getString("name"))
+                .description(rs.getString("description"))
+                .createAt(rs.getTimestamp("created_at").toLocalDateTime())
                 .build();
     }
 }
