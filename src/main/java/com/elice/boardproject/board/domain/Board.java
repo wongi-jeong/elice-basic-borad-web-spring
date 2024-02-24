@@ -6,27 +6,22 @@ import java.util.Date;
 
 @Entity
 @Getter
+@Builder(toBuilder = true)
 @NoArgsConstructor
-@ToString
-@Table(name = "board")
+@AllArgsConstructor
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardId;
+    private Long id;
 
-    private String writer;
-    private String title;
-    private String content;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedDate;
+    @Column(nullable = false, unique = true, length = 20)
+    private String name;
 
-    @Builder
-    public Board(Long boardId, String writer, String title, String content, Date updatedDate) {
-        this.boardId = boardId;
-        this.writer = writer;
-        this.title = title;
-        this.content = content;
-        this.updatedDate = updatedDate;
+    @Column(length = 200)
+    private String description;
+
+    public Board(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
-
 }
