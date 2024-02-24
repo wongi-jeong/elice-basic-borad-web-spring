@@ -49,7 +49,7 @@ public class BoardController {
     }
 
     // 게시판 생성
-    @PostMapping("/boards/create")
+    @PostMapping("/create")
     public String createBoard(@ModelAttribute BoardPostDTO boardPostDTO) {
         Board board = boardMapper.boardPostDTOBoard(boardPostDTO);
         boardService.saveBoard(board);
