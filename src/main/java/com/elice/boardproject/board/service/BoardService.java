@@ -4,7 +4,6 @@ import com.elice.boardproject.board.domain.Board;
 import com.elice.boardproject.board.repository.BoardRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,10 +22,8 @@ public class BoardService {
         return boardRepository.findById(id).orElse(null);
     }
 
-    public Long saveBoard(Board board) {
-        Board.builder().updatedDate(new Date()).build();
-        Board result = boardRepository.save(board);
-        return result.getBoardId();
+    public Board saveBoard(Board board) {
+        return boardRepository.save(board);
     }
 
     public void updateBoard(Board board) {
