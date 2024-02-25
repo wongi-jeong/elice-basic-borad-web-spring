@@ -1,31 +1,34 @@
 package com.elice.boardproject.post.domain;
 
+import com.elice.boardproject.board.domain.Board;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
-@Table(name = "post")
+@AllArgsConstructor
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    private Long id;
 
+    @Column(nullable = false, length = 30)
     private String title;
-    private String content;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
 
-    public Post(String title, String content) {
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "board_id", nullable = false)
+    private Board board;
+
+    public Post(Board board, String title, String content) {
+        this.board = board;
         this.title = title;
         this.content = content;
     }
+
 }
