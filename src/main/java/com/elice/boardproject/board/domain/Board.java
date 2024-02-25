@@ -28,7 +28,7 @@ public class Board {
     private String description;
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime createAt;
 
     @OneToMany(mappedBy = "board")
