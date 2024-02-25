@@ -1,20 +1,25 @@
 package com.elice.boardproject.post.service;
 
+import com.elice.boardproject.board.domain.Board;
+import com.elice.boardproject.board.service.BoardService;
 import com.elice.boardproject.post.domain.Post;
-import com.elice.boardproject.post.dto.PostDTO;
 import com.elice.boardproject.post.repsoitory.PostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
-    @Autowired
-    private final PostRepository postRepository;
 
-    public PostService(PostRepository postRepository) {
+    private final PostRepository postRepository;
+    private final BoardService boardService;
+
+    public PostService(PostRepository postRepository, BoardService boardService) {
         this.postRepository = postRepository;
+        this.boardService = boardService;
     }
 
     public List<Post> getAllPosts() {
@@ -25,27 +30,37 @@ public class PostService {
         return postRepository.findById(id).orElse(null);
     }
 
-    public Post savePost(String title, String content) {
-        Post post = new Post();
-        post.setTitle(title);
-        post.setContent(content);
+    public Post createPost(Post post, Long boardId) {
+        Board boardToSave = boardService.getBoardById(boardId);
+        post.setBoard(boardToSave);
+
         return postRepository.save(post);
     }
 
-    public Post savePost(PostDTO postDTO) {
-        return postRepository.save(postDTO.toEntity());
-    }
+    public Post updatePost(Post post, Long postId) {
+        post.setId(postId);
+        Post foundPost = postRepository.findById(post.getId())
+                .orElse(null);
 
-    public Post updatePost(PostDTO postDTO) {
-        Post post = postRepository.findById(postDTO.getId()).orElse(null);
-        post.setTitle(postDTO.getTitle());
-        post.setContent(postDTO.getContent());
+        Optional.ofNullable(post.getTitle())
+                .ifPresent(title -> foundPost.setTitle(title));
 
-        return postRepository.save(post);
+        Optional.ofNullable(post.getContent())
+                .ifPresent(content -> foundPost.setContent(content));
+
+        return postRepository.save(foundPost);
     }
 
     public void deletePost(Long id) {
         Post post = postRepository.findById(id).orElse(null);
         postRepository.delete(post);
+    }
+
+    public Page<Post> findPostsByBoardAndKeyword(Board board, String keyword, PageRequest pageRequest) {
+        if (keyword != null && !keyword.isEmpty()) {
+            return postRepository.findAllByBoardAndTitleContaining(board, keyword, pageRequest);
+        } else {
+            return postRepository.findAllByBoardOrderByCreateAtDesc(board, pageRequest);
+        }
     }
 }
