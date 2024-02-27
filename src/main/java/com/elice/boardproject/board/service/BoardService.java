@@ -1,6 +1,6 @@
 package com.elice.boardproject.board.service;
 
-import com.elice.boardproject.board.domain.Board;
+import com.elice.boardproject.board.entity.Board;
 import com.elice.boardproject.board.repository.BoardRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +22,8 @@ public class BoardService {
         return boardRepository.findById(id).orElse(null);
     }
 
-    public Board saveBoard(Board board) {
-        return boardRepository.save(board);
+    public void saveBoard(Board board) {
+        boardRepository.save(board);
     }
 
     public void updateBoard(Board board) {

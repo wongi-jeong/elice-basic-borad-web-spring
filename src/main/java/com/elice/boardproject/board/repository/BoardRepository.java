@@ -1,6 +1,6 @@
 package com.elice.boardproject.board.repository;
 
-import com.elice.boardproject.board.domain.Board;
+import com.elice.boardproject.board.entity.Board;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -41,8 +41,8 @@ public class BoardRepository {
         }
     }
 
-    public Board save(Board board) {
-        String sql = "INSERT INTO board(name, description, created_at) VALUES (?, ?, ?)";
+    public void save(Board board) {
+        String sql = "INSERT INTO board(name, description, create_at) VALUES (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         LocalDateTime createAt = LocalDateTime.now();
 
@@ -56,19 +56,18 @@ public class BoardRepository {
 
         Number key = keyHolder.getKey();
 
-        if (key == null) return board;
+        if (key == null) return;
 
-        return board.toBuilder()
+        board.toBuilder()
                 .id(key.longValue())
                 .createAt(createAt)
                 .build();
     }
 
-    public Board update(Board board) {
+    public void update(Board board) {
         String sql = "UPDATE board SET name = ?, description = ? WHERE id = ?";
         jdbcTemplate.update(sql, board.getName(), board.getDescription(), board.getId());
 
-        return board;
     }
 
     public void delete(Long id) {
@@ -82,7 +81,7 @@ public class BoardRepository {
                 .id(rs.getLong("id"))
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
-                .createAt(rs.getTimestamp("created_at").toLocalDateTime())
+                .createAt(rs.getTimestamp("create_at").toLocalDateTime())
                 .build();
     }
 }

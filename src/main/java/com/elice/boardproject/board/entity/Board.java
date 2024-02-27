@@ -28,14 +28,9 @@ public class Board {
     private String description;
 
     @CreatedDate
-    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "create_at", nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime createAt;
 
     @OneToMany(mappedBy = "board")
     final private List<Post> posts = new ArrayList<>();
-
-    public Board(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 }

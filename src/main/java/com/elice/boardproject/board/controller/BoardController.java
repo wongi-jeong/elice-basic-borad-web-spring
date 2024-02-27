@@ -1,6 +1,6 @@
 package com.elice.boardproject.board.controller;
 
-import com.elice.boardproject.board.domain.Board;
+import com.elice.boardproject.board.entity.Board;
 import com.elice.boardproject.board.dto.BoardPostDTO;
 import com.elice.boardproject.board.service.BoardService;
 import com.elice.boardproject.board.mapper.BoardMapper;
