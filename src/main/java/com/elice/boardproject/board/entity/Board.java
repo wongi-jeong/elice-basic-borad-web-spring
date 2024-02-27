@@ -1,6 +1,6 @@
-package com.elice.boardproject.board.domain;
+package com.elice.boardproject.board.entity;
 
-import com.elice.boardproject.post.domain.Post;
+import com.elice.boardproject.post.entity.Post;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

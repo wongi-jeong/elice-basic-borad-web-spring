@@ -1,6 +1,6 @@
-package com.elice.boardproject.post.domain;
+package com.elice.boardproject.post.entity;
 
-import com.elice.boardproject.board.domain.Board;
+import com.elice.boardproject.board.entity.Board;
 import jakarta.persistence.*;
 import lombok.*;
 
