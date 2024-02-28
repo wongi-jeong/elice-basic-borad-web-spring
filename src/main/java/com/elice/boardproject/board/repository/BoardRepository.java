@@ -42,15 +42,15 @@ public class BoardRepository {
     }
 
     public void save(Board board) {
-        String sql = "INSERT INTO board(name, description, create_at) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO board(name, description, created_at) VALUES (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        LocalDateTime createAt = LocalDateTime.now();
+        LocalDateTime createdAt = LocalDateTime.now();
 
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(sql, new String[]{"id"});
             ps.setString(1, board.getName());
             ps.setString(2, board.getDescription());
-            ps.setTimestamp(3, Timestamp.valueOf(createAt));
+            ps.setTimestamp(3, Timestamp.valueOf(createdAt));
             return ps;
         }, keyHolder);
 
@@ -60,7 +60,7 @@ public class BoardRepository {
 
         board.toBuilder()
                 .id(key.longValue())
-                .createAt(createAt)
+                .createdAt(createdAt)
                 .build();
     }
 
@@ -81,7 +81,7 @@ public class BoardRepository {
                 .id(rs.getLong("id"))
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
-                .createAt(rs.getTimestamp("create_at").toLocalDateTime())
+                .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
                 .build();
     }
 }

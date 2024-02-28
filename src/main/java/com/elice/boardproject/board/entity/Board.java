@@ -28,8 +28,8 @@ public class Board {
     private String description;
 
     @CreatedDate
-    @Column(name = "create_at", nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime createAt;
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP")
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "board")
     final private List<Post> posts = new ArrayList<>();
