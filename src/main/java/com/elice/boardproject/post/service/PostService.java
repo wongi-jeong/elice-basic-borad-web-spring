@@ -60,7 +60,7 @@ public class PostService {
         if (keyword != null && !keyword.isEmpty()) {
             return postRepository.findAllByBoardAndTitleContaining(board, keyword, pageRequest);
         } else {
-            return postRepository.findAllByBoardOrderByBoardCreateAtDesc(board, pageRequest);
+            return postRepository.findAllByBoardOrderByBoardCreatedAtDesc(board, pageRequest);
         }
     }
 }
