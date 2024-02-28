@@ -1,9 +1,9 @@
 package com.elice.boardproject.post.service;
 
-import com.elice.boardproject.board.domain.Board;
+import com.elice.boardproject.board.entity.Board;
 import com.elice.boardproject.board.service.BoardService;
-import com.elice.boardproject.post.domain.Post;
-import com.elice.boardproject.post.repsoitory.PostRepository;
+import com.elice.boardproject.post.entity.Post;
+import com.elice.boardproject.post.repository.PostRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -60,7 +60,7 @@ public class PostService {
         if (keyword != null && !keyword.isEmpty()) {
             return postRepository.findAllByBoardAndTitleContaining(board, keyword, pageRequest);
         } else {
-            return postRepository.findAllByBoardOrderByCreateAtDesc(board, pageRequest);
+            return postRepository.findAllByBoardOrderByBoardCreateAtDesc(board, pageRequest);
         }
     }
 }
