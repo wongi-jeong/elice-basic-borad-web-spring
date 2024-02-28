@@ -1,6 +1,8 @@
 package com.elice.boardproject.post.entity;
 
 import com.elice.boardproject.board.entity.Board;
+import com.elice.boardproject.global.entity.BaseEntity;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +12,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post {
+public class Post extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
