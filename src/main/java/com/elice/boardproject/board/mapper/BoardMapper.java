@@ -1,6 +1,6 @@
 package com.elice.boardproject.board.mapper;
 
-import com.elice.boardproject.board.domain.Board;
+import com.elice.boardproject.board.entity.Board;
 import com.elice.boardproject.board.dto.BoardPostDTO;
 import org.mapstruct.Mapper;
 

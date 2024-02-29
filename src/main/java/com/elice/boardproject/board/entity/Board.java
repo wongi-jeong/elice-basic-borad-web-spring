@@ -1,11 +1,14 @@
-package com.elice.boardproject.board.domain;
+package com.elice.boardproject.board.entity;
 
+import com.elice.boardproject.post.entity.Post;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,10 +29,8 @@ public class Board {
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
-    public Board(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
+    @OneToMany(mappedBy = "board")
+    final private List<Post> posts = new ArrayList<>();
 }
