@@ -1,4 +1,4 @@
-package com.elice.boardproject.comment;
+package com.elice.boardproject.comment.entity;
 
 import com.elice.boardproject.global.entity.BaseEntity;
 import com.elice.boardproject.post.entity.Post;
