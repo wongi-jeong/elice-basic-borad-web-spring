@@ -2,11 +2,11 @@ package com.elice.boardproject.comment.service;
 
 import com.elice.boardproject.comment.entity.Comment;
 import com.elice.boardproject.comment.repository.CommentRepository;
+import com.elice.boardproject.post.entity.Post;
 import com.elice.boardproject.post.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,16 +20,12 @@ public class CommentService {
         this.postRepository = postRepository;
     }
 
-    public List<Comment> findComments() {
-        return commentRepository.findAll();
-    }
+    public Comment createComment(Long postId, Comment comment) {
+        Post post = postRepository.findById(postId).orElse(null);
+        log.info(post.getTitle());
 
-    public Comment findComment(Long commentId) {
-        return commentRepository.findById(commentId).orElse(null);
-    }
-
-    public List<Comment> findCommentByPostId(Long postId) {
-        return commentRepository.findByPostId(postId);
+        comment.setPost(post);
+        return commentRepository.save(comment);
     }
 
     public Comment updateComment(Long commentId, Comment comment) {
