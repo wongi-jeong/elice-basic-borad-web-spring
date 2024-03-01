@@ -7,6 +7,7 @@ import com.elice.boardproject.post.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,10 @@ public class CommentService {
     public CommentService(CommentRepository commentRepository, PostRepository postRepository) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
+    }
+
+    public List<Comment> findCommentByPostId(Long postId) {
+        return commentRepository.findByPostId(postId);
     }
 
     public Comment createComment(Long postId, Comment comment) {
