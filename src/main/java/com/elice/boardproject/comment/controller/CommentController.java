@@ -4,10 +4,12 @@ import com.elice.boardproject.comment.dto.CommentDTO;
 import com.elice.boardproject.comment.entity.Comment;
 import com.elice.boardproject.comment.mapper.CommentMapper;
 import com.elice.boardproject.comment.service.CommentService;
-import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
