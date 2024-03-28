@@ -1,5 +1,7 @@
 package com.elice.boardproject.post.controller;
 
+import com.elice.boardproject.comment.entity.Comment;
+import com.elice.boardproject.comment.service.CommentService;
 import com.elice.boardproject.post.entity.Post;
 import com.elice.boardproject.post.dto.PostDTO;
 import com.elice.boardproject.post.service.PostService;
@@ -11,17 +13,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @AllArgsConstructor
 @RequestMapping("/posts")
 public class PostController {
     private final PostService postService;
     private final PostMapper postMapper;
+    private final CommentService commentService;
 
     @GetMapping("/{postId}")
     public String getPostById(@PathVariable Long postId, Model model) {
         Post post = postService.getPostById(postId);
         model.addAttribute("post", post);
+        List<Comment> comments = commentService.findCommentByPostId(postId);
+        model.addAttribute("comments", comments);
 
         return "post/post";
     }
