@@ -1,13 +1,14 @@
-package com.elice.boardproject.post.dto;
+package com.elice.boardproject.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class PostDTO {
-    private String title;
+@NoArgsConstructor
+public class CommentDTO {
     private String content;
 }
